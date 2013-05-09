@@ -1,19 +1,22 @@
 Template.salaries.rendered = ->
 
-  margin = {top: 50, right: 100, bottom: 50, left: 100}
+  data = _.sortBy(player_salaries_2012, (d) -> d.base_salary).reverse()
+  margin = {top: 100, right: 100, bottom: 50, left: 300}
   width = 1000 - margin.left - margin.right
-  height = 500 - margin.top - margin.bottom
+  height = 5000 - margin.top - margin.bottom
 
-  x = d3.scale.ordinal()
-    .rangeBands([0, width], 0.1)
+  y = d3.scale.ordinal()
+    .rangeBands([0, height], 0.1)
     #.rangeRoundBands([0, width], 0.1)
 
-  y = d3.scale.linear()
-    .range([height, 0])
+  x = d3.scale.linear()
+    .range([0, width])
 
   xAxis = d3.svg.axis()
     .scale(x)
-    .orient('bottom')
+    .ticks(4)
+    .orient('top')
+
 
   yAxis = d3.svg.axis()
     .scale(y)
@@ -23,30 +26,29 @@ Template.salaries.rendered = ->
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
     .append('g')
-      .attr('transform', "translate(#{ margin.left} , #{margin.top} )")
+      .attr('transform', "translate(#{ margin.left} , #{margin.bottom} )")
 
-  x.domain(player_salaries_2012.map( (d) -> d.last_name) )
-  y.domain([0, d3.max(player_salaries_2012, (d) -> d.base_salary) ])
+  x.domain([0, d3.max(data, (d) -> d.base_salary) ])
+  y.domain(data.map( (d) -> d.last_name) )
 
   svg.append('g')
     .attr('class', 'x axis')
-    .attr('transform', "translate(0, #{height})")
     .call(xAxis)
 
   svg.append('g')
-      .attr('class', 'y axis')
+      .attr('class', 'y_axis')
       .call(yAxis)
     .append("text")
-      .attr('transform', 'rotate(-90) translate(-157)')
       .attr('y', 6)
-      .attr('dy', '.71em')
+      .attr('dy', '.25em')
+      .attr('transform', "translate(0, -50 )")
       .text("Base Salary in $")
 
   svg.selectAll('.bar')
-    .data(player_salaries_2012)
+    .data(data)
     .enter().append('rect')
     .attr('class', 'bar')
-    .attr('x', (d) -> x(d.last_name))
-    .attr('width', x.rangeBand())
-    .attr('y', (d) -> y(d.base_salary))
-    .attr('height', (d) -> height - y(d.base_salary))
+    .attr('y', (d) -> y(d.last_name))
+    .attr('height', y.rangeBand())
+    .attr('x', 0)
+    .attr('width', (d) -> x(d.base_salary))
