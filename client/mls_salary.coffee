@@ -1,11 +1,12 @@
 Template.salaries.rendered = ->
 
-  margin = {top: 50, right: 50, bottom: 50, left: 130}
-  width = 960 - margin.left - margin.right
+  margin = {top: 50, right: 100, bottom: 50, left: 100}
+  width = 1000 - margin.left - margin.right
   height = 500 - margin.top - margin.bottom
 
   x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], 0.1)
+    .rangeBands([0, width], 0.1)
+    #.rangeRoundBands([0, width], 0.1)
 
   y = d3.scale.linear()
     .range([height, 0])
@@ -36,16 +37,16 @@ Template.salaries.rendered = ->
       .attr('class', 'y axis')
       .call(yAxis)
     .append("text")
-      .attr('transform', 'rotate(-90)')
+      .attr('transform', 'rotate(-90) translate(-157)')
       .attr('y', 6)
       .attr('dy', '.71em')
-      .text("Some text!")
+      .text("Base Salary in $")
 
   svg.selectAll('.bar')
     .data(player_salaries_2012)
     .enter().append('rect')
     .attr('class', 'bar')
-    .attr('x', (d) -> x(d.first_name))
+    .attr('x', (d) -> x(d.last_name))
     .attr('width', x.rangeBand())
     .attr('y', (d) -> y(d.base_salary))
     .attr('height', (d) -> height - y(d.base_salary))
