@@ -1,5 +1,6 @@
 Template.horizontal_bar_chart.rendered = ->
 
+  d3.selectAll('svg').remove()
   data = _.sortBy(player_salaries_2012, (d) -> d.base_salary).reverse()
   margin = {top: 100, right: 100, bottom: 50, left: 300}
   width = 1000 - margin.left - margin.right
