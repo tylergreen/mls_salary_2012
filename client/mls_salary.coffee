@@ -1,4 +1,4 @@
-Template.salaries.rendered = ->
+Template.horizontal_bar_chart.rendered = ->
 
   data = _.sortBy(player_salaries_2012, (d) -> d.base_salary).reverse()
   margin = {top: 100, right: 100, bottom: 50, left: 300}
@@ -22,7 +22,7 @@ Template.salaries.rendered = ->
     .scale(y)
     .orient('left')
 
-  svg = d3.select('body').select('svg')
+  svg = d3.select('body').append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
     .append('g')

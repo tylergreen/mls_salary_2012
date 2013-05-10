@@ -4,11 +4,16 @@
 
 <body>
   <h1> 2012 Base Salaries of Major League Soccer Players </h1>
-  {{> salaries}}
+  <a href="horizontal">Horizontal Bar Chart</a>
+  <a href="vertical">Vertical Bar Chart</a>
+  {{renderPage}}
 </body>
 
-<template name="salaries">
-  <svg></svg>
-</template>
+<template name="horizontal_bar_chart"></template>
+<template name="vertical_bar_chart"></template>
+<template name="bubble_chart"></template>
+<template name="not_found"></template>
+
+
 
 
