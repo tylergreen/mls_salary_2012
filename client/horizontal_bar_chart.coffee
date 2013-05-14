@@ -30,7 +30,7 @@ Template.horizontal_bar_chart.rendered = ->
       .attr('transform', "translate(#{ margin.left} , #{margin.bottom} )")
 
   x.domain([0, d3.max(data, (d) -> d.base_salary) ])
-  y.domain(data.map( (d) -> d.last_name) )
+  y.domain(data.map( (d) -> d.name))
 
   svg.append('g')
     .attr('class', 'x axis')
@@ -49,7 +49,7 @@ Template.horizontal_bar_chart.rendered = ->
     .data(data)
     .enter().append('rect')
     .attr('class', 'bar')
-    .attr('y', (d) -> y(d.last_name))
+    .attr('y', (d) -> y(d.name))
     .attr('height', y.rangeBand())
     .attr('x', 0)
     .attr('width', (d) -> x(d.base_salary))

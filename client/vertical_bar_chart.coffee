@@ -26,11 +26,12 @@ Template.vertical_bar_chart.rendered = ->
     .append('g')
       .attr('transform', "translate(#{ margin.left} , #{margin.top} )")
 
-  x.domain(player_salaries_2012.map( (d) -> d.last_name) )
+  x.domain(player_salaries_2012.map( (d) -> d.name) )
   y.domain([0, d3.max(player_salaries_2012, (d) -> d.base_salary) ])
 
   svg.append('g')
     .attr('class', 'x axis')
+    .attr('transform', 'rotate(90)')
     .attr('transform', "translate(0, #{height})")
     .call(xAxis)
 
@@ -47,7 +48,7 @@ Template.vertical_bar_chart.rendered = ->
     .data(player_salaries_2012)
     .enter().append('rect')
     .attr('class', 'bar')
-    .attr('x', (d) -> x(d.last_name))
+    .attr('x', (d) -> x(d.name))
     .attr('width', x.rangeBand())
     .attr('y', (d) -> y(d.base_salary))
     .attr('height', (d) -> height - y(d.base_salary))
