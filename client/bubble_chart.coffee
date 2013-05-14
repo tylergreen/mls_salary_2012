@@ -2,16 +2,18 @@ Template.bubble_chart.rendered = ->
   d3.selectAll('svg').remove()
 
   data =
-      name: 'MLS'
-      value: 100
-      children: player_salaries_2012.map((d) -> {name: d.name, value: d.base_salary / 50000})
+      name: ''
+      value: 10
+      children: player_salaries_2012
 
   height = 1000
   width = 2000
 
   bubble = d3.layout.pack()
+    .value( (d) -> d.base_salary / 50000)
+    .sort(null)
     .size([width, height])
-    .padding(1.5)
+    .padding(0.5)
 
   svg = d3.select('body').append('svg')
     .attr('width', width)
@@ -35,7 +37,7 @@ Template.bubble_chart.rendered = ->
     .attr('transform', 'translate(-50, 0)')
     .append('text')
     .text((d) -> d.name)
-
+    .attr('font-size', (d) -> "#{d.value / 4 }px")
 
   node.append('circle')
     .attr('r', (d) -> d.value)
