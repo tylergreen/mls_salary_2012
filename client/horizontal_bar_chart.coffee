@@ -32,9 +32,9 @@ Template.horizontal_bar_chart.rendered = ->
   x.domain([0, d3.max(data, (d) -> d.base_salary) ])
   y.domain(data.map( (d) -> d.name))
 
-  svg.append('g')
-    .attr('class', 'x axis')
-    .call(xAxis)
+  #svg.append('g')
+  #  .attr('class', 'x axis')
+  #  .call(xAxis)
 
   svg.append('g')
       .attr('class', 'y_axis')
@@ -43,7 +43,7 @@ Template.horizontal_bar_chart.rendered = ->
       .attr('y', 6)
       .attr('dy', '.25em')
       .attr('transform', "translate(0, -50 )")
-      .text("Base Salary in $")
+      .text("Base Salary")
 
   svg.selectAll('.bar')
     .data(data)
@@ -53,3 +53,12 @@ Template.horizontal_bar_chart.rendered = ->
     .attr('height', y.rangeBand())
     .attr('x', 0)
     .attr('width', (d) -> x(d.base_salary))
+
+  svg.selectAll('.salary_label')
+    .data(data)
+    .enter()
+    .append('text')
+      .attr('x', (d) -> x(d.base_salary) + 20) # improve
+      .attr('y', (d) -> y(d.name) + 5) # improve
+      .attr('font-size', 'xx-small') # improve
+      .text((d) -> "$#{d.base_salary}")

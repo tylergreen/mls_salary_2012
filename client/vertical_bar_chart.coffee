@@ -31,7 +31,6 @@ Template.vertical_bar_chart.rendered = ->
 
   svg.append('g')
     .attr('class', 'x axis')
-    .attr('transform', 'rotate(90)')
     .attr('transform', "translate(0, #{height})")
     .call(xAxis)
 

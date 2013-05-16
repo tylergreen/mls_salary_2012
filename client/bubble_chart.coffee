@@ -34,12 +34,13 @@ Template.bubble_chart.rendered = ->
   console.log(bubble.nodes(data))
 
   node.append('g')
-    .attr('transform', 'translate(-50, 0)')
+    .attr('transform', 'translate(-100, -50)')
     .append('text')
     .text((d) -> d.name)
-    .attr('font-size', (d) -> "#{d.value / 4 }px")
+    .attr('font-size', (d) -> "#{d3.max([d.value / 4, 5])}px")
+
 
   node.append('circle')
-    .attr('r', (d) -> d.value)
+    .attr('r', (d) -> d.r)
     .style('fill', 'blue')
     .attr('opacity', 0.5)
