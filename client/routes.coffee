@@ -3,6 +3,7 @@ Meteor.Router.add({
   '/horizontal' : 'horizontal_bar_chart',
   '/vertical' : 'vertical_bar_chart',
   '/bubble' : 'bubble_chart',
+  '/team_bubble' : 'team_bubble_chart',
   '*' : 'not_found'
   }
 )
