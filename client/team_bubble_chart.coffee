@@ -46,3 +46,14 @@ Template.team_bubble_chart.rendered = ->
     .attr('r', (d) -> d.r)
     .style('fill', 'blue')
     .attr('opacity', 0.5)
+
+  node.on('click', (d,i) ->
+    console.log('d')
+    console.log(d)
+    console.log('i')
+    console.log(i)
+    console.log('this')
+    console.log(@)
+    d3.select(@)
+    .attr('color', 'red')
+    .style('fill', 'red'))
