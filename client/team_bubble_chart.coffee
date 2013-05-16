@@ -36,24 +36,22 @@ Template.team_bubble_chart.rendered = ->
     .attr('class', 'node')
     .attr('transform', (d) -> "translate(#{d.x }, #{d.y})")
 
-  node.append('g')
-    .attr('transform', 'translate(-50, 0)')
-    .append('text')
-    .text((d) -> if d.name == 'MLS' then '' else d.name)
-    .attr('font-size', (d) -> "#{d3.max([d.value / 4, 5])}px")
+  node.append('g').append('text')
+      .text((d) -> if d.name == 'MLS' then '' else d.name)
+      .attr('font-size', (d) -> "#{d3.max([d.value / 4, 5])}px")
 
   node.append('circle')
     .attr('r', (d) -> d.r)
     .style('fill', 'blue')
     .attr('opacity', 0.5)
 
-  node.on('click', (d,i) ->
-    console.log('d')
-    console.log(d)
-    console.log('i')
-    console.log(i)
-    console.log('this')
-    console.log(@)
-    d3.select(@)
-    .attr('color', 'red')
-    .style('fill', 'red'))
+  #node.on('click', (d,i) ->
+  #  d3.select(@).select('circle').style('fill', 'yellow'))
+  #)
+
+
+  node
+    .on('mouseover', ->
+      d3.select(@).select('circle').style('fill', 'dark-blue'))
+    .on('mouseout', ->
+      d3.select(@).select('circle').style('fill', 'blue'))
