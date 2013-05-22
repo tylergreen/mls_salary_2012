@@ -15,6 +15,7 @@ Template.vertical_bar_chart.rendered = ->
   xAxis = d3.svg.axis()
     .scale(x)
     .orient('bottom')
+    .tickFormat((d) -> '')
 
   yAxis = d3.svg.axis()
     .scale(y)
