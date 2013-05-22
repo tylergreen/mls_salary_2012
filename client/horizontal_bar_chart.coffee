@@ -2,7 +2,7 @@ Template.horizontal_bar_chart.rendered = ->
 
   d3.selectAll('svg').remove()
   data = _.sortBy(player_salaries_2012, (d) -> d.base_salary).reverse()
-  margin = {top: 100, right: 100, bottom: 50, left: 300}
+  margin = {top: 100, right: 0, bottom: 50, left: 150}
   width = 1000 - margin.left - margin.right
   height = 5000 - margin.top - margin.bottom
 
@@ -39,11 +39,6 @@ Template.horizontal_bar_chart.rendered = ->
   svg.append('g')
       .attr('class', 'y_axis')
       .call(yAxis)
-    .append("text")
-      .attr('y', 6)
-      .attr('dy', '.25em')
-      .attr('transform', "translate(0, -50 )")
-      .text("Base Salary")
 
   svg.selectAll('.bar')
     .data(data)
