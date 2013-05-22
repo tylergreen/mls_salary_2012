@@ -52,6 +52,9 @@ Template.team_bubble_chart.rendered = ->
 
   node
     .on('mouseover', ->
-      d3.select(@).select('circle').style('fill', 'dark-blue'))
+      d3.select(@).style('fill', 'yellow')
+        .select('circle').style('fill', 'dark-blue'))
+
     .on('mouseout', ->
-      d3.select(@).select('circle').style('fill', 'blue'))
+      d3.select(@).style('fill', 'black')
+        .select('circle').style('fill', 'blue'))
