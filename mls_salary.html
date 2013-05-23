@@ -3,12 +3,50 @@
 </head>
 
 <body>
-  <h1> 2012 Base Salaries of Major League Soccer Players </h1>
-  <a href="horizontal">Horizontal Bar Chart</a>
-  <a href="vertical">Vertical Bar Chart</a>
-  <a href="bubble">Bubble Chart</a>
-  <a href="team_bubble">Team Bubble Chart</a>
-  {{renderPage}}
+
+<div class='row'>
+  <div class='span10'>
+	  <h1> 2012 Base Salaries of Major League Soccer Players </h1>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='span2'>
+
+	<div class='row'>
+	  <div class='span2'>
+		<a href="horizontal">Horizontal Bar Chart</a>
+	  </div>
+	</div>
+
+	<div class='row'>
+	  <div class='span2'>
+		<a href="vertical">Vertical Bar Chart</a>
+	  </div>
+	</div>
+
+	<div class='row'>
+	  <div class='span2'>
+		<a href="bubble">Bubble Chart</a>
+	  </div>
+	</div>
+
+	<div class='row'>
+	  <div class='span2'>
+		<a href="team_bubble">Team Bubble Chart</a>
+	  </div>
+	</div>
+
+  </div>
+
+  <div class='span6'> 
+	<div class='chart_area'>
+	  {{renderPage}}
+	</div>
+  </div>
+  
+</div>
+
 </body>
 
 <template name="horizontal_bar_chart"></template>
