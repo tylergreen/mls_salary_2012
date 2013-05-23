@@ -7,7 +7,7 @@ team_salaries = (salaries) ->
 
 Template.team_bubble_chart.rendered = ->
 
-  data =
+  mls_data =
       name: 'MLS'
       base_salary: 0
       children: team_salaries(player_salaries_2012)
@@ -27,47 +27,50 @@ Template.team_bubble_chart.rendered = ->
       .value( (d) -> d.base_salary / 50000)
       .size([width , height ])
       .padding(0.5)
+      .sort(d3.ascending)
 
-  draw_bubbles = (sort) ->
-    d3.selectAll('svg').remove()
-
-    svg = d3.select('.chart_area').append('svg')
+  svg = d3.select('.chart_area').append('svg')
       .attr('width', width)
       .attr('height', height)
 
-    mysquare = svg.append('rect')
-      .attr('x', 60)
-      .attr('y', 60)
-      .attr('width', 60)
-      .attr('height', 60)
-      .style('fill', 'blue')
+  on_button = svg.append('rect')
+    .attr('x', 60)
+    .attr('y', 60)
+    .attr('width', 60)
+    .attr('height', 60)
+    .style('fill', 'blue')
 
-    if sort
-      bubble = unsorted_bubble()
-    else
-      bubble = sorted_bubble()
+  off_button = svg.append('rect')
+    .attr('x', 0)
+    .attr('y', 60)
+    .attr('width', 60)
+    .attr('height', 60)
+    .style('fill', 'green')
 
-    console.log(bubble)
+  on_button.on('click', -> sort_bubbles(true))
+  off_button.on('click', -> sort_bubbles(false))
 
-    nodes = bubble.nodes(data)
+  bubble = unsorted_bubble()
 
-    node = svg.selectAll('.node')
-      .data(nodes)
+  node_pack = bubble.nodes(mls_data)
+
+  node = svg.selectAll('.node')
+      .data(node_pack)
       .enter()
       .append('g')
       .attr('class', 'node')
       .attr('transform', (d) -> "translate(#{d.x }, #{d.y})")
 
-    node.append('g').append('text')
-        .text((d) -> if d.name == 'MLS' then '' else d.name)
-        .attr('font-size', (d) -> "#{d3.max([d.value / 4, 5])}px")
+  node.append('text')
+    .text((d) -> if d.name == 'MLS' then '' else d.name)
+    .attr('font-size', (d) -> "#{d3.max([d.value / 4, 5])}px")
 
-    node.append('circle')
+  node.append('circle')
       .attr('r', (d) -> d.r)
       .style('fill', 'blue')
       .attr('opacity', 0.5)
 
-    node
+  node
       .on('mouseover', ->
         d3.select(@).style('fill', 'yellow')
           .select('circle').style('fill', 'dark-blue'))
@@ -76,7 +79,17 @@ Template.team_bubble_chart.rendered = ->
         d3.select(@).style('fill', 'black')
           .select('circle').style('fill', 'blue'))
 
+  sort_bubbles = (sortp) ->
+    if sortp
+      bubble = unsorted_bubble()
+    else
+      bubble = sorted_bubble()
 
-  draw_bubbles(true)
+    node_pack = bubble.nodes(mls_data) # recompute nodes
 
-  d3.select('body').on('click', -> draw_bubbles(false) )
+    svg = d3.select('.chart_area').select('svg')
+
+    node = svg.selectAll('.node')
+      .data(node_pack)
+      .transition()
+      .attr('transform', (d) -> "translate(#{d.x }, #{d.y})")
