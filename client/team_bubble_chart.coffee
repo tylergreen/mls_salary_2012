@@ -15,19 +15,17 @@ Template.team_bubble_chart.rendered = ->
   height = 1000
   width = 1000
 
-  unsorted_bubble = ->
-    d3.layout.pack()
-      .value( (d) -> d.base_salary / 50000)
-      .size([width , height ])
-      .padding(0.5)
-      .sort(null)
+  unsorted_bubbles = d3.layout.pack()
+    .value( (d) -> d.base_salary / 50000)
+    .size([width , height ])
+    .padding(0.5)
+    .sort(null)
 
-  sorted_bubble = ->
-    d3.layout.pack()
-      .value( (d) -> d.base_salary / 50000)
-      .size([width , height ])
-      .padding(0.5)
-      .sort(d3.ascending)
+  sorted_bubbles = d3.layout.pack()
+    .value( (d) -> d.base_salary / 50000)
+    .size([width , height ])
+    .padding(0.5)
+    .sort(d3.ascending)
 
   svg = d3.select('.chart_area').append('svg')
       .attr('width', width)
@@ -47,15 +45,17 @@ Template.team_bubble_chart.rendered = ->
     .attr('height', 60)
     .style('fill', 'green')
 
-  on_button.on('click', -> sort_bubbles(true))
-  off_button.on('click', -> sort_bubbles(false))
-
-  bubble = unsorted_bubble()
-
-  node_pack = bubble.nodes(mls_data)
+  on_button.on('click', ->
+    console.log('sorting')
+    sort_bubbles(true)
+  )
+  off_button.on('click', ->
+    console.log('unsorting')
+    sort_bubbles(false)
+  )
 
   node = svg.selectAll('.node')
-      .data(node_pack)
+      .data(unsorted_bubbles.nodes(mls_data))
       .enter()
       .append('g')
       .attr('class', 'node')
@@ -81,15 +81,10 @@ Template.team_bubble_chart.rendered = ->
 
   sort_bubbles = (sortp) ->
     if sortp
-      bubble = unsorted_bubble()
+       bubbles = unsorted_bubbles.nodes(mls_data)
     else
-      bubble = sorted_bubble()
-
-    node_pack = bubble.nodes(mls_data) # recompute nodes
-
-    svg = d3.select('.chart_area').select('svg')
-
-    node = svg.selectAll('.node')
-      .data(node_pack)
+      bubbles = sorted_bubbles.nodes(mls_data)
+    svg.selectAll('.node')
+      .data(bubbles)
       .transition()
       .attr('transform', (d) -> "translate(#{d.x }, #{d.y})")
