@@ -2,7 +2,7 @@ Template.horizontal_bar_chart.rendered = ->
 
   d3.selectAll('svg').remove()
   data = _.sortBy(player_salaries_2012, (d) -> d.base_salary).reverse()
-  margin = {top: 100, right: 0, bottom: 50, left: 150}
+  margin = {top: 0, right: 100, bottom: 50, left: 100}
   width = 1000 - margin.left - margin.right
   height = 5000 - margin.top - margin.bottom
 
@@ -17,7 +17,6 @@ Template.horizontal_bar_chart.rendered = ->
     .scale(x)
     .ticks(4)
     .orient('top')
-
 
   yAxis = d3.svg.axis()
     .scale(y)
@@ -49,11 +48,17 @@ Template.horizontal_bar_chart.rendered = ->
     .attr('x', 0)
     .attr('width', (d) -> x(d.base_salary))
 
+  console.log('y')
+  console.log(y.rangeBand())
+
   svg.selectAll('.salary_label')
     .data(data)
     .enter()
     .append('text')
-      .attr('x', (d) -> x(d.base_salary) + 20) # improve
+      .attr('x', (d) -> x(d.base_salary) + 10) # improve
       .attr('y', (d) -> y(d.name) + 5) # improve
-      .attr('font-size', 'xx-small') # improve
+      .attr('font-size', "#{y.rangeBand() - 1}px") # improve
       .text((d) -> "$#{d.base_salary}")
+
+  svg.selectAll('.tick')
+    .attr('font-size',  "#{y.rangeBand()}px")
