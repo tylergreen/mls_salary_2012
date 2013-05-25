@@ -60,5 +60,5 @@ Template.horizontal_bar_chart.rendered = ->
       .attr('font-size', "#{y.rangeBand() - 1}px") # improve
       .text((d) -> "$#{d.base_salary}")
 
-  svg.selectAll('.tick')
+  d3.select('.y_axis').selectAll('.tick')
     .attr('font-size',  "#{y.rangeBand()}px")
