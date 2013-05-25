@@ -3,11 +3,10 @@ Template.vertical_bar_chart.rendered = ->
   d3.selectAll('svg').remove()
   margin = {top: 50, right: 100, bottom: 50, left: 100}
   width = 1000 - margin.left - margin.right
-  height = 500 - margin.top - margin.bottom
+  height = 300 - margin.top - margin.bottom
 
   x = d3.scale.ordinal()
     .rangeBands([0, width], 0.1)
-    #.rangeRoundBands([0, width], 0.1)
 
   y = d3.scale.linear()
     .range([height, 0])
@@ -52,3 +51,24 @@ Template.vertical_bar_chart.rendered = ->
     .attr('width', x.rangeBand())
     .attr('y', (d) -> y(d.base_salary))
     .attr('height', (d) -> height - y(d.base_salary))
+    .attr('info', (d) -> "#{d.name} $#{d3.format(',')(d.base_salary)}")
+
+  player_info = svg.append('text')
+    .attr('class', 'info')
+    .attr('x',20)
+    .attr('y',0)
+    .text('')
+
+  svg.selectAll('.bar').on('mouseover', ->
+    elem = d3.select(@)
+    elem.style('fill', 'orange')
+    name = elem.attr('info')
+    player_info.text(name)
+    player_info.attr('x', elem.attr('x'))
+    player_info.attr('y', elem.attr('y'))
+    )
+
+  svg.selectAll('.bar').on('mouseout', ->
+    d3.select(@).style('fill', 'steelblue')
+    player_info.text('')
+  )
