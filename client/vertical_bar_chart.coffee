@@ -55,9 +55,9 @@ Template.vertical_bar_chart.rendered = ->
 
   player_info = svg.append('text')
     .attr('class', 'info')
-    .attr('x',20)
+    .attr('x',100)
     .attr('y',0)
-    .text('')
+    .text('drag mouse over bars to see player info')
 
   svg.selectAll('.bar').on('mouseover', ->
     elem = d3.select(@)
